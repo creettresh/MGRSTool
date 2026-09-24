@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MGRSTool</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="card">
+      <h1>MGRS → WGS84</h1>
+      <p class="lede">
+        Введіть координату MGRS. Отримаєте широту і довготу (WGS84).
+      </p>
+
+      <label for="mgrs">MGRS</label>
+      <input
+        id="mgrs"
+        type="text"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="наприклад 33TWN0838825205"
+      />
+
+      <div class="actions">
+        <button id="convert" type="button">Конвертувати</button>
+        <button id="example" type="button" class="secondary">Приклад</button>
+      </div>
+
+      <p id="error" class="error" hidden></p>
+
+      <dl id="result" hidden>
+        <div>
+          <dt>Широта</dt>
+          <dd id="lat"></dd>
+        </div>
+        <div>
+          <dt>Довгота</dt>
+          <dd id="lon"></dd>
+        </div>
+        <div>
+          <dt>WGS84</dt>
+          <dd id="pair"></dd>
+        </div>
+      </dl>
+    </main>
+
+    <script src="vendor/mgrs.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
