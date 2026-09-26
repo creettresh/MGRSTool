@@ -13,36 +13,76 @@
         Введіть координату MGRS. Отримаєте широту і довготу (WGS84).
       </p>
 
-      <label for="mgrs">MGRS</label>
-      <input
-        id="mgrs"
-        type="text"
-        autocomplete="off"
-        spellcheck="false"
-        placeholder="наприклад 33TWN0838825205"
-      />
+      <section>
+        <label for="mgrs">MGRS</label>
+        <input
+          id="mgrs"
+          type="text"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="наприклад 33TWN0838825205"
+        />
 
-      <div class="actions">
-        <button id="convert" type="button">Конвертувати</button>
-        <button id="example" type="button" class="secondary">Приклад</button>
-      </div>
+        <div class="actions">
+          <button id="convert" type="button">Конвертувати</button>
+          <button id="example" type="button" class="secondary">Приклад</button>
+        </div>
 
-      <p id="error" class="error" hidden></p>
+        <p id="error" class="error" hidden></p>
 
-      <dl id="result" hidden>
-        <div>
-          <dt>Широта</dt>
-          <dd id="lat"></dd>
+        <dl id="result" hidden>
+          <div>
+            <dt>Широта</dt>
+            <dd id="lat"></dd>
+          </div>
+          <div>
+            <dt>Довгота</dt>
+            <dd id="lon"></dd>
+          </div>
+          <div>
+            <dt>WGS84</dt>
+            <dd id="pair"></dd>
+          </div>
+        </dl>
+
+        <div class="actions" id="result-actions" hidden>
+          <button id="copy-pair" type="button" class="secondary">
+            Копіювати
+          </button>
         </div>
-        <div>
-          <dt>Довгота</dt>
-          <dd id="lon"></dd>
+      </section>
+
+      <hr />
+
+      <section>
+        <label for="batch">Список MGRS</label>
+        <textarea
+          id="batch"
+          rows="6"
+          spellcheck="false"
+          placeholder="35U PU 12345 67890&#10;35U PU 54321 98765&#10;35U PU 11111 22222"
+        ></textarea>
+
+        <div class="actions">
+          <button id="batch-convert" type="button">Convert</button>
+          <button id="copy-csv" type="button" class="secondary" hidden>
+            Copy CSV
+          </button>
         </div>
-        <div>
-          <dt>WGS84</dt>
-          <dd id="pair"></dd>
+
+        <div id="batch-table-wrap" hidden>
+          <table id="batch-table">
+            <thead>
+              <tr>
+                <th>MGRS</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+              </tr>
+            </thead>
+            <tbody id="batch-body"></tbody>
+          </table>
         </div>
-      </dl>
+      </section>
     </main>
 
     <script src="vendor/mgrs.min.js"></script>

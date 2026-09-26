@@ -37,7 +37,7 @@ body {
 }
 
 .card {
-  width: min(440px, 100%);
+  width: min(640px, 100%);
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -62,7 +62,8 @@ label {
   margin-bottom: 6px;
 }
 
-input {
+input,
+textarea {
   width: 100%;
   font: inherit;
   padding: 10px 12px;
@@ -70,6 +71,18 @@ input {
   border-radius: 8px;
   background: transparent;
   color: inherit;
+}
+
+textarea {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  resize: vertical;
+  min-height: 8em;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 28px 0;
 }
 
 .actions {
@@ -121,4 +134,33 @@ dd {
   margin: 0;
   font-variant-numeric: tabular-nums;
   text-align: right;
+}
+
+#batch-table-wrap {
+  margin-top: 16px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+th {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.row-error td {
+  color: var(--error);
 }
