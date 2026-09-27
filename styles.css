@@ -107,6 +107,22 @@ button.secondary {
   border: 1px solid var(--line);
 }
 
+a.button {
+  display: inline-flex;
+  align-items: center;
+  font: inherit;
+  border-radius: 8px;
+  padding: 10px 14px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a.button.secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+
 .error {
   margin: 12px 0 0;
   color: var(--error);
@@ -163,4 +179,13 @@ th {
 
 .row-error td {
   color: var(--error);
+}
+
+#batch-table a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+#batch-table a:hover {
+  text-decoration: underline;
 }

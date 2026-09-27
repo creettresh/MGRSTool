@@ -12,6 +12,7 @@
   var pairEl = document.getElementById("pair");
   var resultActionsEl = document.getElementById("result-actions");
   var copyPairButton = document.getElementById("copy-pair");
+  var mapLinkEl = document.getElementById("map-link");
 
   var batchInput = document.getElementById("batch");
   var batchConvertButton = document.getElementById("batch-convert");
@@ -43,6 +44,10 @@
     }
   }
 
+  function mapUrl(lat, lon) {
+    return "https://www.google.com/maps?q=" + lat.toFixed(6) + "," + lon.toFixed(6);
+  }
+
   function showError(message) {
     errorEl.hidden = false;
     errorEl.textContent = message;
@@ -63,6 +68,7 @@
     latEl.textContent = converted.lat.toFixed(6);
     lonEl.textContent = converted.lon.toFixed(6);
     pairEl.textContent = converted.lat.toFixed(6) + ", " + converted.lon.toFixed(6);
+    mapLinkEl.href = mapUrl(converted.lat, converted.lon);
   }
 
   function csvCell(value) {
@@ -108,20 +114,31 @@
       var mgrsCell = document.createElement("td");
       var latCell = document.createElement("td");
       var lonCell = document.createElement("td");
+      var mapCell = document.createElement("td");
       mgrsCell.textContent = row.raw;
       if (row.converted.ok) {
         latCell.textContent = row.converted.lat.toFixed(6);
         lonCell.textContent = row.converted.lon.toFixed(6);
+        var mapLink = document.createElement("a");
+        mapLink.href = mapUrl(row.converted.lat, row.converted.lon);
+        mapLink.target = "_blank";
+        mapLink.rel = "noopener noreferrer";
+        mapLink.textContent = "Карта";
+        mapCell.appendChild(mapLink);
       } else {
         tr.className = "row-error";
         latCell.textContent = row.converted.error;
-        latCell.colSpan = 2;
+        latCell.colSpan = 3;
         lonCell = null;
+        mapCell = null;
       }
       tr.appendChild(mgrsCell);
       tr.appendChild(latCell);
       if (lonCell) {
         tr.appendChild(lonCell);
+      }
+      if (mapCell) {
+        tr.appendChild(mapCell);
       }
       batchBody.appendChild(tr);
     }
