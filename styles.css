@@ -41,7 +41,7 @@ body {
 }
 
 .card {
-  width: min(640px, 100%);
+  width: min(880px, 100%);
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -111,20 +111,128 @@ button.secondary {
   border: 1px solid var(--line);
 }
 
-a.button {
-  display: inline-flex;
-  align-items: center;
-  font: inherit;
-  border-radius: 8px;
-  padding: 10px 14px;
+.link-accent,
+#batch-table a {
+  color: var(--accent);
   text-decoration: none;
+}
+
+.link-accent:hover,
+#batch-table a:hover {
+  text-decoration: underline;
+}
+
+button.link-accent {
+  background: transparent;
+  border: 0;
+  padding: 0;
   cursor: pointer;
 }
 
-a.button.secondary {
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--line);
+.link-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.link-icon .icon {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+#copy-pair {
+  padding: 6px;
+  margin: -6px 0 -6px -6px;
+  border-radius: 6px;
+}
+
+#copy-pair:hover {
+  background: var(--line);
+}
+
+#result-actions {
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.placeholder {
+  margin: 0;
+  color: var(--muted);
+}
+
+.single {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 32px;
+  align-items: start;
+}
+
+.single-result {
+  padding-top: 25px;
+}
+
+.single-result dl {
+  margin-top: 0;
+}
+
+@media (max-width: 560px) {
+  .single {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .single-result {
+    padding-top: 0;
+  }
+
+  .single-result dl {
+    margin-top: 20px;
+  }
+}
+
+.batch {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 8px 32px;
+  align-items: start;
+}
+
+.batch-result {
+  padding-top: 25px;
+}
+
+.batch-result #batch-table-wrap {
+  margin-top: 0;
+}
+
+@media (max-width: 700px) {
+  .batch {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .batch-result {
+    padding-top: 0;
+  }
+
+  .batch-result #batch-table-wrap {
+    margin-top: 16px;
+  }
 }
 
 .error {
@@ -183,13 +291,4 @@ th {
 
 .row-error td {
   color: var(--error);
-}
-
-#batch-table a {
-  color: var(--accent);
-  text-decoration: none;
-}
-
-#batch-table a:hover {
-  text-decoration: underline;
 }

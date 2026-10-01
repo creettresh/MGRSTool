@@ -13,78 +13,156 @@
         Введіть координату MGRS. Отримаєте широту і довготу (WGS84).
       </p>
 
-      <section>
-        <label for="mgrs">MGRS</label>
-        <input
-          id="mgrs"
-          type="text"
-          autocomplete="off"
-          spellcheck="false"
-          placeholder="наприклад 33TWN0838825205"
-        />
+      <section class="single">
+        <div class="single-form">
+          <label for="mgrs">MGRS</label>
+          <input
+            id="mgrs"
+            type="text"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="наприклад 33TWN0838825205"
+          />
 
-        <div class="actions">
-          <button id="convert" type="button">Конвертувати</button>
-          <button id="example" type="button" class="secondary">Приклад</button>
+          <div class="actions">
+            <button id="convert" type="button">Конвертувати</button>
+            <button id="example" type="button" class="secondary">Приклад</button>
+          </div>
+
+          <p id="error" class="error" hidden></p>
         </div>
 
-        <p id="error" class="error" hidden></p>
+        <div class="single-result">
+          <p id="result-placeholder" class="placeholder">
+            Результат з'явиться тут
+          </p>
 
-        <dl id="result" hidden>
-          <div>
-            <dt>Широта</dt>
-            <dd id="lat"></dd>
-          </div>
-          <div>
-            <dt>Довгота</dt>
-            <dd id="lon"></dd>
-          </div>
-          <div>
-            <dt>WGS84</dt>
-            <dd id="pair"></dd>
-          </div>
-        </dl>
+          <dl id="result" hidden>
+            <div>
+              <dt>Широта</dt>
+              <dd id="lat"></dd>
+            </div>
+            <div>
+              <dt>Довгота</dt>
+              <dd id="lon"></dd>
+            </div>
+            <div>
+              <dt>WGS84</dt>
+              <dd id="pair"></dd>
+            </div>
+          </dl>
 
-        <div class="actions" id="result-actions" hidden>
-          <button id="copy-pair" type="button" class="secondary">
-            Копіювати
-          </button>
-          <a id="map-link" href="#" target="_blank" rel="noopener noreferrer" class="button secondary">
-            Відкрити на карті
-          </a>
+          <div class="actions" id="result-actions" hidden>
+            <button
+              id="copy-pair"
+              type="button"
+              class="link-accent link-icon"
+              title="Копіювати"
+            >
+              <svg class="icon icon-copy" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <rect
+                  x="5.5"
+                  y="5.5"
+                  width="8"
+                  height="8"
+                  rx="1.3"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.3"
+                />
+                <path
+                  d="M3.3 10.2V3.8a1 1 0 0 1 1-1h6.4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <svg
+                class="icon icon-check"
+                viewBox="0 0 16 16"
+                aria-hidden="true"
+                focusable="false"
+                hidden
+              >
+                <path
+                  d="M3.5 8.5l3 3 6-6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span id="copy-pair-label" class="sr-only">Копіювати</span>
+            </button>
+            <a id="map-link" href="#" target="_blank" rel="noopener noreferrer" class="link-accent">
+              Відкрити на карті
+            </a>
+          </div>
         </div>
       </section>
 
       <hr />
 
-      <section>
-        <label for="batch">Список MGRS</label>
-        <textarea
-          id="batch"
-          rows="6"
-          spellcheck="false"
-          placeholder="35U PU 12345 67890&#10;35U PU 54321 98765&#10;35U PU 11111 22222"
-        ></textarea>
+      <section class="batch">
+        <div class="batch-form">
+          <label for="batch">Список MGRS</label>
+          <textarea
+            id="batch"
+            rows="6"
+            spellcheck="false"
+            placeholder="35U PU 12345 67890&#10;35U PU 54321 98765&#10;35U PU 11111 22222"
+          ></textarea>
 
-        <div class="actions">
-          <button id="batch-convert" type="button">Конвертувати</button>
-          <button id="copy-csv" type="button" class="secondary" hidden>
-            Копіювати CSV
-          </button>
+          <div class="actions">
+            <button id="batch-convert" type="button">Конвертувати</button>
+            <button
+              id="copy-csv"
+              type="button"
+              class="secondary link-icon"
+              hidden
+            >
+              <svg class="icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <rect
+                  x="5.5"
+                  y="5.5"
+                  width="8"
+                  height="8"
+                  rx="1.3"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.3"
+                />
+                <path
+                  d="M3.3 10.2V3.8a1 1 0 0 1 1-1h6.4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span id="copy-csv-label">Копіювати CSV</span>
+            </button>
+          </div>
         </div>
 
-        <div id="batch-table-wrap" hidden>
-          <table id="batch-table">
-            <thead>
-              <tr>
-                <th>MGRS</th>
-                <th>Широта</th>
-                <th>Довгота</th>
-                <th>Карта</th>
-              </tr>
-            </thead>
-            <tbody id="batch-body"></tbody>
-          </table>
+        <div class="batch-result">
+          <div id="batch-table-wrap" hidden>
+            <table id="batch-table">
+              <thead>
+                <tr>
+                  <th>MGRS</th>
+                  <th>Широта</th>
+                  <th>Довгота</th>
+                  <th>Карта</th>
+                </tr>
+              </thead>
+              <tbody id="batch-body"></tbody>
+            </table>
+          </div>
         </div>
       </section>
     </main>

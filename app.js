@@ -12,11 +12,16 @@
   var pairEl = document.getElementById("pair");
   var resultActionsEl = document.getElementById("result-actions");
   var copyPairButton = document.getElementById("copy-pair");
+  var copyPairLabel = document.getElementById("copy-pair-label");
+  var copyPairIconCopy = copyPairButton.querySelector(".icon-copy");
+  var copyPairIconCheck = copyPairButton.querySelector(".icon-check");
   var mapLinkEl = document.getElementById("map-link");
+  var resultPlaceholderEl = document.getElementById("result-placeholder");
 
   var batchInput = document.getElementById("batch");
   var batchConvertButton = document.getElementById("batch-convert");
   var copyCsvButton = document.getElementById("copy-csv");
+  var copyCsvLabel = document.getElementById("copy-csv-label");
   var batchTableWrap = document.getElementById("batch-table-wrap");
   var batchBody = document.getElementById("batch-body");
 
@@ -59,12 +64,17 @@
     if (!converted.ok) {
       showError(converted.error === "Порожній рядок" ? "Введіть MGRS." : converted.error);
       resultActionsEl.hidden = true;
+      resultPlaceholderEl.hidden = false;
       return;
     }
     errorEl.hidden = true;
     resultEl.hidden = false;
     resultActionsEl.hidden = false;
-    copyPairButton.textContent = "Копіювати";
+    resultPlaceholderEl.hidden = true;
+    copyPairLabel.textContent = "Копіювати";
+    copyPairButton.title = "Копіювати";
+    copyPairIconCopy.hidden = false;
+    copyPairIconCheck.hidden = true;
     latEl.textContent = converted.lat.toFixed(6);
     lonEl.textContent = converted.lon.toFixed(6);
     pairEl.textContent = converted.lat.toFixed(6) + ", " + converted.lon.toFixed(6);
@@ -146,18 +156,16 @@
     lastCsv = csv.join("\n");
     batchTableWrap.hidden = false;
     copyCsvButton.hidden = false;
-    copyCsvButton.textContent = "Копіювати CSV";
+    copyCsvLabel.textContent = "Копіювати CSV";
   }
 
-  function copyText(text, button, defaultLabel) {
+  function copyText(text, onCopied, onReset) {
     if (!text) {
       return;
     }
     function done() {
-      button.textContent = "Скопійовано";
-      setTimeout(function () {
-        button.textContent = defaultLabel;
-      }, 1200);
+      onCopied();
+      setTimeout(onReset, 1200);
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(done).catch(function () {
@@ -171,11 +179,33 @@
   }
 
   function copyCsv() {
-    copyText(lastCsv, copyCsvButton, "Копіювати CSV");
+    copyText(
+      lastCsv,
+      function () {
+        copyCsvLabel.textContent = "Скопійовано";
+      },
+      function () {
+        copyCsvLabel.textContent = "Копіювати CSV";
+      }
+    );
   }
 
   function copyPair() {
-    copyText(pairEl.textContent, copyPairButton, "Копіювати");
+    copyText(
+      pairEl.textContent,
+      function () {
+        copyPairLabel.textContent = "Скопійовано";
+        copyPairButton.title = "Скопійовано";
+        copyPairIconCopy.hidden = true;
+        copyPairIconCheck.hidden = false;
+      },
+      function () {
+        copyPairLabel.textContent = "Копіювати";
+        copyPairButton.title = "Копіювати";
+        copyPairIconCopy.hidden = false;
+        copyPairIconCheck.hidden = true;
+      }
+    );
   }
 
   function fallbackCopy(text) {
