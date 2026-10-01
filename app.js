@@ -146,7 +146,7 @@
     lastCsv = csv.join("\n");
     batchTableWrap.hidden = false;
     copyCsvButton.hidden = false;
-    copyCsvButton.textContent = "Copy CSV";
+    copyCsvButton.textContent = "Копіювати CSV";
   }
 
   function copyText(text, button, defaultLabel) {
@@ -171,7 +171,7 @@
   }
 
   function copyCsv() {
-    copyText(lastCsv, copyCsvButton, "Copy CSV");
+    copyText(lastCsv, copyCsvButton, "Копіювати CSV");
   }
 
   function copyPair() {
