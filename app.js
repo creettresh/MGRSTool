@@ -27,6 +27,115 @@
 
   var lastCsv = "";
 
+  function setHidden(el, isHidden) {
+    if (isHidden) {
+      el.setAttribute("hidden", "");
+    } else {
+      el.removeAttribute("hidden");
+    }
+  }
+
+  var SVG_NS = "http://www.w3.org/2000/svg";
+
+  function svgEl(tag, attrs) {
+    var el = document.createElementNS(SVG_NS, tag);
+    for (var key in attrs) {
+      el.setAttribute(key, attrs[key]);
+    }
+    return el;
+  }
+
+  function copyIconSvg(className) {
+    var svg = svgEl("svg", {
+      class: className,
+      viewBox: "0 0 16 16",
+      "aria-hidden": "true",
+      focusable: "false"
+    });
+    svg.appendChild(
+      svgEl("rect", {
+        x: "5.5",
+        y: "5.5",
+        width: "8",
+        height: "8",
+        rx: "1.3",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "1.3"
+      })
+    );
+    svg.appendChild(
+      svgEl("path", {
+        d: "M3.3 10.2V3.8a1 1 0 0 1 1-1h6.4",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "1.3",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      })
+    );
+    return svg;
+  }
+
+  function checkIconSvg(className) {
+    var svg = svgEl("svg", {
+      class: className,
+      viewBox: "0 0 16 16",
+      "aria-hidden": "true",
+      focusable: "false"
+    });
+    svg.appendChild(
+      svgEl("path", {
+        d: "M3.5 8.5l3 3 6-6",
+        fill: "none",
+        stroke: "currentColor",
+        "stroke-width": "1.6",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round"
+      })
+    );
+    return svg;
+  }
+
+  function createCopyIconButton(text) {
+    var button = document.createElement("button");
+    button.type = "button";
+    button.className = "link-accent link-icon icon-button";
+    button.title = "Копіювати";
+
+    var iconCopy = copyIconSvg("icon icon-copy");
+    var iconCheck = checkIconSvg("icon icon-check");
+    setHidden(iconCheck, true);
+
+    var label = document.createElement("span");
+    label.className = "sr-only";
+    label.textContent = "Копіювати";
+
+    button.appendChild(iconCopy);
+    button.appendChild(iconCheck);
+    button.appendChild(label);
+
+    button.addEventListener("click", function () {
+      copyText(
+        text,
+        function () {
+          label.textContent = "Скопійовано";
+          button.title = "Скопійовано";
+          setHidden(iconCopy, true);
+          setHidden(iconCheck, false);
+        },
+        function () {
+          label.textContent = "Копіювати";
+          button.title = "Копіювати";
+          setHidden(iconCopy, false);
+          setHidden(iconCheck, true);
+        }
+      );
+    });
+
+    return button;
+  }
+
   function normalize(value) {
     return value.replace(/\s+/g, "").toUpperCase();
   }
@@ -73,8 +182,8 @@
     resultPlaceholderEl.hidden = true;
     copyPairLabel.textContent = "Копіювати";
     copyPairButton.title = "Копіювати";
-    copyPairIconCopy.hidden = false;
-    copyPairIconCheck.hidden = true;
+    setHidden(copyPairIconCopy, false);
+    setHidden(copyPairIconCheck, true);
     latEl.textContent = converted.lat.toFixed(6);
     lonEl.textContent = converted.lon.toFixed(6);
     pairEl.textContent = converted.lat.toFixed(6) + ", " + converted.lon.toFixed(6);
@@ -124,31 +233,42 @@
       var mgrsCell = document.createElement("td");
       var latCell = document.createElement("td");
       var lonCell = document.createElement("td");
-      var mapCell = document.createElement("td");
+      var actionsCell = document.createElement("td");
       mgrsCell.textContent = row.raw;
       if (row.converted.ok) {
         latCell.textContent = row.converted.lat.toFixed(6);
         lonCell.textContent = row.converted.lon.toFixed(6);
+
+        var rowActions = document.createElement("span");
+        rowActions.className = "row-actions";
+
+        var rowCopyButton = createCopyIconButton(
+          row.converted.lat.toFixed(6) + ", " + row.converted.lon.toFixed(6)
+        );
+        rowActions.appendChild(rowCopyButton);
+
         var mapLink = document.createElement("a");
         mapLink.href = mapUrl(row.converted.lat, row.converted.lon);
         mapLink.target = "_blank";
         mapLink.rel = "noopener noreferrer";
         mapLink.textContent = "Карта";
-        mapCell.appendChild(mapLink);
+        rowActions.appendChild(mapLink);
+
+        actionsCell.appendChild(rowActions);
       } else {
         tr.className = "row-error";
         latCell.textContent = row.converted.error;
         latCell.colSpan = 3;
         lonCell = null;
-        mapCell = null;
+        actionsCell = null;
       }
       tr.appendChild(mgrsCell);
       tr.appendChild(latCell);
       if (lonCell) {
         tr.appendChild(lonCell);
       }
-      if (mapCell) {
-        tr.appendChild(mapCell);
+      if (actionsCell) {
+        tr.appendChild(actionsCell);
       }
       batchBody.appendChild(tr);
     }
@@ -165,7 +285,7 @@
     }
     function done() {
       onCopied();
-      setTimeout(onReset, 1200);
+      setTimeout(onReset, 2000);
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(done).catch(function () {
@@ -196,14 +316,14 @@
       function () {
         copyPairLabel.textContent = "Скопійовано";
         copyPairButton.title = "Скопійовано";
-        copyPairIconCopy.hidden = true;
-        copyPairIconCheck.hidden = false;
+        setHidden(copyPairIconCopy, true);
+        setHidden(copyPairIconCheck, false);
       },
       function () {
         copyPairLabel.textContent = "Копіювати";
         copyPairButton.title = "Копіювати";
-        copyPairIconCopy.hidden = false;
-        copyPairIconCheck.hidden = true;
+        setHidden(copyPairIconCopy, false);
+        setHidden(copyPairIconCheck, true);
       }
     );
   }

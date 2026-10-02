@@ -7,6 +7,7 @@
   --line: #e4e4e7;
   --accent: #2563eb;
   --error: #b91c1c;
+  --success: #16a34a;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,6 +19,7 @@
     --line: #27272a;
     --accent: #60a5fa;
     --error: #f87171;
+    --success: #4ade80;
   }
 }
 
@@ -141,6 +143,10 @@ button.link-accent {
   flex: none;
 }
 
+.icon-check {
+  color: var(--success);
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -153,13 +159,13 @@ button.link-accent {
   border: 0;
 }
 
-#copy-pair {
+.icon-button {
   padding: 6px;
   margin: -6px 0 -6px -6px;
   border-radius: 6px;
 }
 
-#copy-pair:hover {
+.icon-button:hover {
   background: var(--line);
 }
 
@@ -175,9 +181,10 @@ button.link-accent {
   color: var(--muted);
 }
 
-.single {
+.single,
+.batch {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.3fr;
   gap: 8px 32px;
   align-items: start;
 }
@@ -203,13 +210,6 @@ button.link-accent {
   .single-result dl {
     margin-top: 20px;
   }
-}
-
-.batch {
-  display: grid;
-  grid-template-columns: 1fr 1.3fr;
-  gap: 8px 32px;
-  align-items: start;
 }
 
 .batch-result {
@@ -291,4 +291,10 @@ th {
 
 .row-error td {
   color: var(--error);
+}
+
+.row-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
